@@ -20,3 +20,17 @@ if __name__ == '__main__':
         return 'Hi there, load data using <a href="/hukuk">Hukuk İncele</a>'
 
     app.run()
+else:
+    app = build_app(reaper_on=False)
+
+    @app.route("/hukuk")
+    def create_df():
+        file = "uploads/Hukuk.xlsx"
+        df = pd.read_excel(file)
+        print(df)
+        instance = startup(data=df, ignore_duplicate=True)
+        return redirect(f"/dtale/main/{instance._data_id}", code=302)
+
+    @app.route("/")
+    def hello_world():
+        return 'Hi there, load data using <a href="/hukuk">Hukuk İncele</a>'
